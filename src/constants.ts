@@ -26,7 +26,7 @@ export const PROFILE = {
 };
 
 export const HERO_STATS = [
-  { label: 'Featured Projects', value: 3, suffix: '' },
+  { label: 'Featured Projects', value: 4, suffix: '' },
   { label: 'Certifications', value: 15, suffix: '' },
   { label: 'Internships', value: 1, suffix: '' },
 ];
@@ -62,6 +62,15 @@ export const SKILLS: Skill[] = [
 ];
 
 export const PROJECTS: Project[] = [
+  {
+    id: '4',
+    title: 'ClimaSense AI Weather App',
+    description: 'An AI-powered weather intelligence app that provides live forecasts, location-based insights, and conversational weather assistance through a clean, modern interface.',
+    thumbnail: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1200&q=80',
+    techStack: ['React', 'TypeScript', 'Vite', 'AI APIs', 'Weather APIs'],
+    liveUrl: 'https://climasense-app.vercel.app/',
+    githubUrl: 'https://github.com/shubham12112004/ClimaSense',
+  },
   {
     id: '1',
     title: 'CineMatch',
