@@ -343,6 +343,7 @@ export default function App() {
     const storedTheme = window.localStorage.getItem('portfolio-theme');
     if (storedTheme === 'dark' || storedTheme === 'light') {
       setTheme(storedTheme);
+      document.documentElement.setAttribute('data-theme', storedTheme);
     }
   }, []);
 
@@ -350,17 +351,35 @@ export default function App() {
     const storedAccent = window.localStorage.getItem('portfolio-accent');
     if (storedAccent && /^#[0-9A-Fa-f]{6}$/.test(storedAccent)) {
       setAccentColor(storedAccent);
+      const rgb = storedAccent.slice(1).match(/.{1,2}/g)?.map(x => parseInt(x, 16)).join(', ') || '6, 182, 212';
+      document.documentElement.style.setProperty('--accent-rgb', rgb);
     }
   }, []);
 
   const toggleTheme = useCallback(() => {
     setThemeTransition(true);
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    setTheme((prev) => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      window.localStorage.setItem('portfolio-theme', newTheme);
+      document.documentElement.setAttribute('data-theme', newTheme);
+      return newTheme;
+    });
     window.setTimeout(() => setThemeTransition(false), 380);
   }, []);
 
+  useEffect(() => {
+    window.localStorage.setItem('portfolio-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    window.localStorage.setItem('portfolio-accent', accentColor);
+    const rgb = accentColor.slice(1).match(/.{1,2}/g)?.map(x => parseInt(x, 16)).join(', ') || '6, 182, 212';
+    document.documentElement.style.setProperty('--accent-rgb', rgb);
+  }, [accentColor]);
+
   return (
-    <div className="app-shell min-h-screen overflow-x-hidden relative" data-theme={theme}>
+    <div className="app-shell min-h-screen overflow-x-hidden relative">
       <div className="bg-glow">
         <div className="bg-glow-blob top-0 left-0" />
         <div className="bg-glow-blob bottom-0 right-0" style={{ animationDelay: '-10s' }} />
