@@ -598,7 +598,7 @@ export default function App() {
                         whileTap={{ scale: 0.98 }}
                         className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/10 bg-white/5 text-white font-bold transition-all flex items-center justify-center gap-2"
                       >
-                        {tr('Download CV')} <Download size={18} />
+                        {tr('Download Resume')} <Download size={18} />
                       </motion.a>
                     </div>
                   </motion.div>
@@ -648,7 +648,7 @@ export default function App() {
                       rel="noopener noreferrer"
                       className="btn-primary inline-flex items-center gap-2"
                     >
-                      {tr('Download Full CV')} <Download size={18} />
+                      {tr('Download Resume')} <Download size={18} />
                     </a>
                   </motion.div>
                 </div>

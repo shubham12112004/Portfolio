@@ -14,12 +14,12 @@ import certImg12 from '../Certificates/Screenshot 2025-12-12 172802.png';
 import certImg13 from '../Certificates/Screenshot 2026-03-20 204149.png';
 import certImg14 from '../Certificates/Screenshot 2026-03-20 204329.png';
 import certImg15 from '../Certificates/NGO.png';
-import generalCvPdf from '../Certificates/Shubham General CV.pdf';
+import generalResumePdf from '../Certificates/Shubham General CV.pdf';
 
 export const PROFILE = {
   name: 'Shubham',
   email: 'raoshubham192@gmail.com',
-  resumeUrl: generalCvPdf,
+  resumeUrl: generalResumePdf,
   githubUrl: 'https://github.com/shubham12112004',
   linkedInUrl: 'https://www.linkedin.com/in/shubhamyadav20/',
   websiteUrl: 'https://github.com/shubham12112004',
