@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, Download, ExternalLink, Calendar, Building2 } from 'lucide-react';
+import { X, Download, Calendar, Building2 } from 'lucide-react';
 import { Certification } from '../types';
 
 interface CertificateModalProps {
@@ -104,9 +104,6 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ certificate,
             >
               <Download size={18} /> Download Certificate
             </a>
-            <button className="w-full py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-              <ExternalLink size={18} /> Verify Credential
-            </button>
           </div>
         </div>
       </motion.div>
