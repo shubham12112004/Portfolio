@@ -39,7 +39,9 @@ import { Skill, Project, Experience, Certification } from './types';
 import { SKILLS, PROJECTS, EXPERIENCES, CERTIFICATIONS, PROFILE, HERO_STATS, CURRENTLY_LEARNING } from './constants';
 import { CertificateModal } from './components/CertificateModal';
 import { googleTranslateService } from './services/googleTranslateService';
-import mineImage from '../Certificates/Mine.png';
+import mineImage from '../Certificates/IMG_0442.JPG.jpeg';
+
+const HERO_TYPING_TEXT = 'Full Stack Developer | Problem Solver';
 
 const ICON_MAP: Record<string, any> = {
   Code2, FileJson, Palette, Globe, Server, Database, Zap, Box, GitBranch, Cloud, Figma
@@ -63,6 +65,26 @@ const ACCENT_OPTIONS = [
   { name: 'Orange', value: '#f97316' },
   { name: 'Rose', value: '#f43f5e' },
 ];
+
+const CERT_SECTION_VARIANTS = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const CERT_CARD_VARIANTS = {
+  hidden: { opacity: 0, y: 22, scale: 0.985 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.55, ease: 'easeOut' },
+  },
+};
 
 const LANGUAGE_OPTIONS = [
   { name: 'English', value: 'en' },
@@ -183,8 +205,8 @@ function ProjectCard({ project, idx, translate }: ProjectCardProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const rotateX = useTransform(y, [-100, 100], [10, -10]);
-  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+  const rotateX = useTransform(y, [-100, 100], [6, -6]);
+  const rotateY = useTransform(x, [-100, 100], [-6, 6]);
 
   function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -209,8 +231,9 @@ function ProjectCard({ project, idx, translate }: ProjectCardProps) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileHover={{ 
-        y: -6,
-        scale: 1.01,
+        y: -8,
+        scale: 1.012,
+        boxShadow: '0 20px 44px rgba(0,0,0,0.34), 0 0 0 1px rgba(255,255,255,0.08)',
       }}
       className="glass-card rounded-[2rem] overflow-hidden group border-white/5 perspective-1000 project-shell"
     >
@@ -251,6 +274,20 @@ function ProjectCard({ project, idx, translate }: ProjectCardProps) {
   );
 }
 
+function SectionReveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 26 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function App() {
   const defaultAccent = '#06b6d4';
   const defaultLanguage = 'en';
@@ -258,13 +295,13 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [activeRole, setActiveRole] = useState(0);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [accentColor, setAccentColor] = useState(defaultAccent);
   const [language, setLanguage] = useState(defaultLanguage);
   const [themeTransition, setThemeTransition] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCertificate, setSelectedCertificate] = useState<Certification | null>(null);
+  const [typedHeroText, setTypedHeroText] = useState('');
   const aboutProfileImage = mineImage;
 
   const handleLanguageChange = useCallback((value: string) => {
@@ -276,13 +313,6 @@ export default function App() {
       console.error('Language change failed:', error);
     });
   }, []);
-
-  const roles = [
-    'BTech CSE Student',
-    'Full Stack Developer',
-    'Problem Solver',
-    'Open Source Learner'
-  ];
 
   // Keep the custom dropdown and Google bar in sync.
   useEffect(() => {
@@ -333,11 +363,17 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveRole((prev) => (prev + 1) % roles.length);
-    }, 2200);
-    return () => clearInterval(timer);
-  }, [roles.length]);
+    let index = 0;
+    const interval = window.setInterval(() => {
+      index += 1;
+      setTypedHeroText(HERO_TYPING_TEXT.slice(0, index));
+      if (index >= HERO_TYPING_TEXT.length) {
+        window.clearInterval(interval);
+      }
+    }, 52);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const storedTheme = window.localStorage.getItem('portfolio-theme');
@@ -400,7 +436,7 @@ export default function App() {
             <ScrollProgress />
             
             {/* Navbar */}
-            <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'glass-navbar py-4 shadow-2xl' : 'bg-transparent py-6'}`}>
+            <nav className={`navbar-shell fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'glass-navbar navbar-scrolled py-4' : 'bg-transparent py-6'}`}>
               <div className="max-w-[1280px] mx-auto px-6 lg:px-8 grid grid-cols-[auto_1fr_auto] items-center gap-6">
                 <motion.a 
                   href="#home"
@@ -550,25 +586,17 @@ export default function App() {
                     <h1 className="text-6xl md:text-8xl font-display font-bold text-white mb-6 tracking-tight leading-none">
                       {tr("Hi, I'm")} <span className="text-gradient">Shubham</span>
                     </h1>
-                    <AnimatePresence mode="wait">
-                      <motion.p
-                        key={roles[activeRole]}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -12 }}
-                        transition={{ duration: 0.35 }}
-                        className="text-2xl md:text-3xl font-medium text-zinc-300 mb-4 role-highlight"
-                      >
-                        {tr(roles[activeRole])}
-                      </motion.p>
-                    </AnimatePresence>
+                    <p className="text-2xl md:text-3xl font-medium text-zinc-300 mb-4 role-highlight typing-line" aria-live="polite">
+                      {tr(typedHeroText)}
+                      <span className="typing-caret" aria-hidden="true">|</span>
+                    </p>
                     <p className="text-zinc-500 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
                       {tr('I build reliable and polished web applications with a strong focus on clean architecture, performance, and product-level user experience.')}
                     </p>
                     <div className="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
                       {HERO_STATS.map((item, idx) => (
                         <motion.div
-                          key={item.label}
+                          key={item.title}
                           initial={{ opacity: 0, y: 16 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
@@ -576,8 +604,8 @@ export default function App() {
                           whileHover={{ y: -3, scale: 1.01 }}
                           className="glass-card rounded-2xl py-4 px-5 border-white/10 stat-card"
                         >
-                          <AnimatedCounter target={item.value} suffix={item.suffix} />
-                          <div className="text-[11px] uppercase tracking-[0.2em] text-zinc-500 mt-1">{tr(item.label)}</div>
+                          <div className="text-white text-sm font-semibold leading-tight">{tr(item.title)}</div>
+                          <div className="text-zinc-500 text-xs leading-relaxed mt-2">{tr(item.description)}</div>
                         </motion.div>
                       ))}
                     </div>
@@ -596,7 +624,7 @@ export default function App() {
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.03, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/10 bg-white/5 text-white font-bold transition-all flex items-center justify-center gap-2"
+                        className="btn-subtle w-full sm:w-auto px-8 py-4 rounded-full border border-white/10 bg-white/5 text-white font-bold transition-all flex items-center justify-center gap-2"
                       >
                         {tr('Download Resume')} <Download size={18} />
                       </motion.a>
@@ -615,7 +643,7 @@ export default function App() {
 
               {/* 2. About Section */}
               <section id="about" className="bg-zinc-950/50">
-                <div className="section-container">
+                <SectionReveal className="section-container">
                   <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -624,12 +652,12 @@ export default function App() {
                     className="max-w-3xl mx-auto text-center"
                   >
                     <div className="mb-8 flex justify-center">
-                      <div className="relative w-40 md:w-52 aspect-square rounded-full overflow-hidden border-2 border-white/15 shadow-[0_0_40px_rgba(6,182,212,0.15)] about-avatar-shell">
+                      <div className="relative w-44 md:w-56 aspect-square rounded-full overflow-hidden border-2 border-white/15 shadow-[0_0_40px_rgba(6,182,212,0.15)] about-avatar-shell">
                         <span className="about-avatar-ring" />
                         <img
                           src={aboutProfileImage}
                           alt="Shubham profile"
-                          className="w-full h-full rounded-full object-cover object-[84%_16%]"
+                          className="w-full h-full rounded-full object-cover object-[50%_42%] rotate-0"
                         />
                       </div>
                     </div>
@@ -646,17 +674,17 @@ export default function App() {
                       href={PROFILE.resumeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-primary inline-flex items-center gap-2"
+                      className="btn-primary btn-subtle inline-flex items-center gap-2"
                     >
                       {tr('Download Resume')} <Download size={18} />
                     </a>
                   </motion.div>
-                </div>
+                </SectionReveal>
               </section>
 
               {/* 3. Featured Projects */}
               <section id="projects" className="bg-grid">
-                <div className="section-container">
+                <SectionReveal className="section-container">
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -672,12 +700,12 @@ export default function App() {
                       <ProjectCard key={project.id} project={project} idx={idx} translate={tr} />
                     ))}
                   </div>
-                </div>
+                </SectionReveal>
               </section>
 
               {/* 4. Skills Section */}
               <section id="skills" className="bg-zinc-950/50">
-                <div className="section-container">
+                <SectionReveal className="section-container">
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -714,7 +742,7 @@ export default function App() {
                       );
                     })}
                   </div>
-                </div>
+                </SectionReveal>
               </section>
 
               {/* 5. Currently Learning Ticker */}
@@ -748,7 +776,7 @@ export default function App() {
 
               {/* 6. Experience Section */}
               <section id="experience" className="bg-grid">
-                <div className="section-container">
+                <SectionReveal className="section-container">
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -780,12 +808,12 @@ export default function App() {
                       </motion.div>
                     ))}
                   </div>
-                </div>
+                </SectionReveal>
               </section>
 
               {/* 7. Certifications Section */}
               <section id="certifications" className="bg-zinc-950">
-                <div className="section-container">
+                <SectionReveal className="section-container">
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -797,19 +825,25 @@ export default function App() {
                     <p className="text-zinc-500 mt-3">{CERTIFICATIONS.length} {tr('credentials uploaded and showcased.')}</p>
                   </motion.div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+                    variants={CERT_SECTION_VARIANTS}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.2 }}
+                  >
                     {CERTIFICATIONS.map((cert, idx) => (
                       <motion.div
                         key={cert.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: idx * 0.1, duration: 0.6 }}
+                        variants={CERT_CARD_VARIANTS}
                         whileHover={{ 
-                          y: -5,
-                          scale: 1.01,
+                          y: -7,
+                          scale: 1.012,
+                          boxShadow: '0 22px 45px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.1)',
                         }}
-                        className="glass-card rounded-2xl overflow-hidden border-white/5 cursor-pointer group transition-all flex flex-col h-full"
+                        whileTap={{ scale: 0.995 }}
+                        transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                        className="glass-card rounded-2xl overflow-hidden border-white/5 cursor-pointer group transition-all duration-300 flex flex-col h-full"
                         onClick={() => setSelectedCertificate(cert)}
                       >
                         <div className="aspect-[4/3] overflow-hidden border-b border-white/10 relative">
@@ -820,6 +854,9 @@ export default function App() {
                             referrerPolicy="no-referrer"
                           />
                           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 certificate-overlay" />
+                          <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/45 border border-white/20 text-[11px] font-semibold tracking-wide text-zinc-100 backdrop-blur-sm">
+                            {tr('Verified')}
+                          </div>
                         </div>
                         <div className="p-6 flex flex-col flex-grow">
                           <div className="text-accent text-xs font-bold uppercase tracking-widest mb-2">{tr(cert.organization)}</div>
@@ -831,14 +868,14 @@ export default function App() {
                         </div>
                       </motion.div>
                     ))}
-                  </div>
-                </div>
+                  </motion.div>
+                </SectionReveal>
               </section>
 
               {/* 8. Contact Section */}
               <section id="contact" className="bg-zinc-950 relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1),transparent_50%)]" />
-                <div className="section-container relative z-10">
+                <SectionReveal className="section-container relative z-10">
                   <div className="grid md:grid-cols-2 gap-16">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -920,7 +957,7 @@ export default function App() {
                       </form>
                     </motion.div>
                   </div>
-                </div>
+                </SectionReveal>
               </section>
             </main>
 
@@ -959,54 +996,6 @@ export default function App() {
         )}
       </AnimatePresence>
       <CursorFollower />
-    </div>
-  );
-}
-
-function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStarted(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.45 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!started) return;
-    const duration = 1100;
-    const start = performance.now();
-
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      }
-    };
-
-    const frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [started, target]);
-
-  return (
-    <div ref={ref} className="text-2xl font-display font-bold text-white">
-      {count}{suffix}
     </div>
   );
 }

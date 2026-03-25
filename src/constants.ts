@@ -1,19 +1,11 @@
 import { Skill, Project, Experience, Certification } from './types';
 import certImg01 from '../Certificates/Screenshot 2025-08-15 142852.png';
 import certImg02 from '../Certificates/Screenshot 2025-08-28 134001.png';
-import certImg03 from '../Certificates/Screenshot 2025-08-28 134054.png';
-import certImg04 from '../Certificates/Screenshot 2025-08-28 134135.png';
-import certImg05 from '../Certificates/Screenshot 2025-09-14 110854.png';
-import certImg06 from '../Certificates/Screenshot 2025-09-14 110917.png';
 import certImg07 from '../Certificates/Screenshot 2025-09-14 111015.png';
 import certImg08 from '../Certificates/Screenshot 2025-09-14 111105.png';
-import certImg09 from '../Certificates/Screenshot 2025-12-09 203221.png';
-import certImg10 from '../Certificates/Screenshot 2025-12-09 203356.png';
 import certImg11 from '../Certificates/Screenshot 2025-12-09 203746.png';
-import certImg12 from '../Certificates/Screenshot 2025-12-12 172802.png';
 import certImg13 from '../Certificates/Screenshot 2026-03-20 204149.png';
 import certImg14 from '../Certificates/Screenshot 2026-03-20 204329.png';
-import certImg15 from '../Certificates/NGO.png';
 import generalResumePdf from '../Certificates/Shubham General CV.pdf';
 
 export const PROFILE = {
@@ -26,9 +18,18 @@ export const PROFILE = {
 };
 
 export const HERO_STATS = [
-  { label: 'Featured Projects', value: 4, suffix: '' },
-  { label: 'Certifications', value: 15, suffix: '' },
-  { label: 'Internships', value: 1, suffix: '' },
+  {
+    title: 'Real-world Build Focus',
+    description: 'Built real-world full stack projects',
+  },
+  {
+    title: 'UI + Performance First',
+    description: 'Focused on clean UI and performance',
+  },
+  {
+    title: 'Consistent Growth',
+    description: 'Continuously learning advanced web technologies',
+  },
 ];
 
 export const CURRENTLY_LEARNING = [
@@ -122,6 +123,15 @@ export const EXPERIENCES: Experience[] = [
 export const CERTIFICATIONS: Certification[] = [
   {
     id: '1',
+    title: 'Data Structures and Algorithms',
+    organization: 'Lovely Professional University (iamneo)',
+    date: 'Dec 2024',
+    image: certImg07,
+    description: 'Core problem-solving credential in DSA.',
+    downloadUrl: certImg07,
+  },
+  {
+    id: '2',
     title: 'Data Structures Algorithms Training',
     organization: 'CipherSchools',
     date: 'Jul 2025',
@@ -130,61 +140,7 @@ export const CERTIFICATIONS: Certification[] = [
     downloadUrl: certImg01,
   },
   {
-    id: '2',
-    title: 'Master Generative AI & Generative AI Tools',
-    organization: 'Udemy',
-    date: 'Aug 2025',
-    image: certImg02,
-    description: 'Credential: UC- (partial)',
-    downloadUrl: certImg02,
-  },
-  {
     id: '3',
-    title: 'Build Generative AI Apps and Solutions with No-Code Tools',
-    organization: 'Udemy',
-    date: 'Aug 2025',
-    image: certImg03,
-    description: 'Credential: UC- (partial)',
-    downloadUrl: certImg03,
-  },
-  {
-    id: '4',
-    title: 'ChatGPT Made Easy: AI Essentials for Beginners',
-    organization: 'Udemy',
-    date: 'Aug 2025',
-    image: certImg04,
-    description: 'Credential: UC- (partial)',
-    downloadUrl: certImg04,
-  },
-  {
-    id: '5',
-    title: 'Object Oriented Programming',
-    organization: 'Lovely Professional University (iamneo)',
-    date: 'Dec 2024',
-    image: certImg05,
-    description: 'Credential: 25AM05J0K0EB1dm7',
-    downloadUrl: certImg05,
-  },
-  {
-    id: '6',
-    title: 'Java Programming',
-    organization: 'Lovely Professional University (iamneo)',
-    date: 'May 2025',
-    image: certImg06,
-    description: 'Credential: 23KC2DL30MB85j9AKO1',
-    downloadUrl: certImg06,
-  },
-  {
-    id: '7',
-    title: 'Data Structures and Algorithms',
-    organization: 'Lovely Professional University (iamneo)',
-    date: 'Dec 2024',
-    image: certImg07,
-    description: 'Credential: 16Af0098a0hAi00185',
-    downloadUrl: certImg07,
-  },
-  {
-    id: '8',
     title: 'Computer Programming',
     organization: 'Lovely Professional University (iamneo)',
     date: 'May 2024',
@@ -193,43 +149,16 @@ export const CERTIFICATIONS: Certification[] = [
     downloadUrl: certImg08,
   },
   {
-    id: '9',
-    title: 'ChatGPT Prompt Engineering: ChatGPT, Generative AI & LLM',
-    organization: 'Infosys Springboard',
-    date: 'Aug 2025',
-    image: certImg09,
-    description: 'Credential: QR based',
-    downloadUrl: certImg09,
+    id: '4',
+    title: 'Cloud Computing',
+    organization: 'NPTEL (IIT Kharagpur / SWAYAM)',
+    date: 'Jul-Oct 2025',
+    image: certImg14,
+    description: 'Credential: NPTEL25CS107545870066',
+    downloadUrl: certImg14,
   },
   {
-    id: '10',
-    title: 'Computational Theory: Language Principle & Finite Automata',
-    organization: 'Infosys Springboard',
-    date: 'Aug 2025',
-    image: certImg10,
-    description: 'Credential: QR based',
-    downloadUrl: certImg10,
-  },
-  {
-    id: '11',
-    title: 'Build Generative AI Apps and Solutions with No-Code Tools',
-    organization: 'Infosys Springboard',
-    date: 'Aug 2025',
-    image: certImg11,
-    description: 'Credential: QR based',
-    downloadUrl: certImg11,
-  },
-  {
-    id: '12',
-    title: 'Master Generative AI & Generative AI Tools (ChatGPT & more)',
-    organization: 'Infosys Springboard',
-    date: 'Aug 2025',
-    image: certImg12,
-    description: 'Credential: QR based',
-    downloadUrl: certImg12,
-  },
-  {
-    id: '13',
+    id: '5',
     title: 'C++ Essentials 1',
     organization: 'Cisco Networking Academy',
     date: 'Nov 2025',
@@ -238,21 +167,21 @@ export const CERTIFICATIONS: Certification[] = [
     downloadUrl: certImg13,
   },
   {
-    id: '14',
-    title: 'Cloud Computing',
-    organization: 'NPTEL (IIT Kharagpur / SWAYAM)',
-    date: 'Jul–Oct 2025',
-    image: certImg14,
-    description: 'Credential: NPTEL25CS107545870066',
-    downloadUrl: certImg14,
+    id: '6',
+    title: 'Build Generative AI Apps and Solutions with No-Code Tools',
+    organization: 'Infosys Springboard',
+    date: 'Aug 2025',
+    image: certImg11,
+    description: 'Credential: QR based',
+    downloadUrl: certImg11,
   },
   {
-    id: '15',
-    title: 'Internship Completion Certificate',
-    organization: 'Yuva Unstoppable (NGO)',
-    date: 'Jun-Jul 2024',
-    image: certImg15,
-    description: 'Completed NGO internship from 07 Jun 2024 to 12 Jul 2024.',
-    downloadUrl: certImg15,
+    id: '7',
+    title: 'Master Generative AI & Generative AI Tools',
+    organization: 'Udemy',
+    date: 'Aug 2025',
+    image: certImg02,
+    description: 'Credential: UC- (partial)',
+    downloadUrl: certImg02,
   },
 ];

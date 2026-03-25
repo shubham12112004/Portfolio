@@ -30,6 +30,7 @@
 
 @layer base {
   html {
+    scroll-behavior: smooth;
     scroll-padding-top: 80px;
   }
   body {
@@ -114,6 +115,22 @@
   );
 }
 
+.btn-primary,
+.btn-subtle {
+  transition: transform 260ms ease, box-shadow 260ms ease, background-color 260ms ease, border-color 260ms ease;
+}
+
+.btn-primary:hover,
+.btn-subtle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -18px rgba(var(--accent-rgb), 0.45);
+}
+
+.btn-primary:active,
+.btn-subtle:active {
+  transform: translateY(0);
+}
+
 .btn-primary::before {
   content: '';
   @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full transition-transform duration-1000;
@@ -150,7 +167,16 @@
 }
 
 .glass-navbar {
-  @apply bg-zinc-950/80 backdrop-blur-xl border-b border-white/10;
+  @apply bg-zinc-950/70 backdrop-blur-xl border-b border-white/10;
+}
+
+.navbar-shell {
+  backdrop-filter: blur(0px);
+}
+
+.navbar-scrolled {
+  backdrop-filter: blur(16px);
+  box-shadow: 0 14px 34px -24px rgba(0, 0, 0, 0.75);
 }
 
 .glass-card {
@@ -430,6 +456,22 @@ body {
   text-transform: uppercase;
 }
 
+.typing-line {
+  min-height: 2.25rem;
+}
+
+.typing-caret {
+  display: inline-block;
+  margin-left: 0.2rem;
+  color: rgba(var(--accent-rgb), 0.9);
+  animation: caret-blink 1s steps(1, end) infinite;
+}
+
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+}
+
 .project-shell {
   position: relative;
 }
@@ -622,6 +664,10 @@ body {
 .app-shell[data-theme='light'] .glass-navbar {
   background: rgba(255, 255, 255, 0.72);
   border-color: rgba(148, 163, 184, 0.25);
+}
+
+.app-shell[data-theme='light'] .navbar-scrolled {
+  box-shadow: 0 14px 34px -24px rgba(15, 23, 42, 0.35);
 }
 
 .app-shell[data-theme='light'] .glass-card {
