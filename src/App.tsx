@@ -31,9 +31,7 @@ import {
   Layers,
   ChevronDown,
   ArrowRight,
-  Calendar,
-  Sun,
-  Moon
+  Calendar
 } from 'lucide-react';
 import { Skill, Project, Experience, Certification } from './types';
 import { SKILLS, PROJECTS, EXPERIENCES, CERTIFICATIONS, PROFILE, HERO_STATS, CURRENTLY_LEARNING } from './constants';
@@ -295,10 +293,8 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [accentColor, setAccentColor] = useState(defaultAccent);
   const [language, setLanguage] = useState(defaultLanguage);
-  const [themeTransition, setThemeTransition] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCertificate, setSelectedCertificate] = useState<Certification | null>(null);
   const [typedHeroText, setTypedHeroText] = useState('');
@@ -376,14 +372,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const storedTheme = window.localStorage.getItem('portfolio-theme');
-    if (storedTheme === 'dark' || storedTheme === 'light') {
-      setTheme(storedTheme);
-      document.documentElement.setAttribute('data-theme', storedTheme);
-    }
-  }, []);
-
-  useEffect(() => {
     const storedAccent = window.localStorage.getItem('portfolio-accent');
     if (storedAccent && /^#[0-9A-Fa-f]{6}$/.test(storedAccent)) {
       setAccentColor(storedAccent);
@@ -391,22 +379,6 @@ export default function App() {
       document.documentElement.style.setProperty('--accent-rgb', rgb);
     }
   }, []);
-
-  const toggleTheme = useCallback(() => {
-    setThemeTransition(true);
-    setTheme((prev) => {
-      const newTheme = prev === 'dark' ? 'light' : 'dark';
-      window.localStorage.setItem('portfolio-theme', newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-      return newTheme;
-    });
-    window.setTimeout(() => setThemeTransition(false), 380);
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('portfolio-theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
 
   useEffect(() => {
     window.localStorage.setItem('portfolio-accent', accentColor);
@@ -495,13 +467,6 @@ export default function App() {
                       ariaLabel="Accent color selector"
                       showColorDot
                     />
-                    <button
-                      aria-label="Toggle theme"
-                      onClick={toggleTheme}
-                      className="theme-toggle"
-                    >
-                      {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-                    </button>
                   </div>
 
                 {/* Mobile Menu Toggle */}
@@ -539,13 +504,6 @@ export default function App() {
                       {tr(link.name)}
                     </a>
                   ))}
-                  <button
-                    aria-label="Toggle theme"
-                    onClick={toggleTheme}
-                    className="theme-toggle"
-                  >
-                    {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-                  </button>
                   <NavDropdown
                     options={ACCENT_OPTIONS}
                     value={accentColor}
@@ -982,17 +940,6 @@ export default function App() {
               )}
             </AnimatePresence>
           </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {themeTransition && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="theme-flash"
-          />
         )}
       </AnimatePresence>
       <CursorFollower />
